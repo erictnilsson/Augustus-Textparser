@@ -19,7 +19,7 @@ namespace Augustus_Textparser
          */
         static void Main(string[] args)
         {
-            ParseFile("C: \\Users\\Eric Nilsson\\Desktop\\bajs.txt");
+            ParseFile("");
         }
 
         static void ParseFile(string filepath)
