@@ -107,26 +107,5 @@ namespace Augustus_Textparser
             File.WriteAllLines(filepath, text);
 
         }
-
-        static Dictionary<string, string> GetCountryAverage(string filepath)
-        {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            try
-            {
-                // full text as a string[]
-                var text = File.ReadAllLines(filepath);
-
-                foreach (var row in text)
-                {
-                    var foo = row.Split('\t');
-                    dict.Add(foo[0], foo[1]);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return dict;
-        }
     }
 }
