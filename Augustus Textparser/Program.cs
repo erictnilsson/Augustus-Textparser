@@ -19,17 +19,10 @@ namespace Augustus_Textparser
          */
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter the filepath to the dataset");
-            var input = Console.ReadLine().Trim(new char[] { ' ', '\"' });
-            try
-            {
-                ParseFile(input);
-                Console.WriteLine("File created successfully!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Ooops, something went wrong: " + e.Message);
-            }
+            //Console.WriteLine("Enter the filepath to the dataset");
+            //var input = Console.ReadLine().Trim(new char[] { ' ', '\"' });
+
+            ParseFile(@"C:\Users\Eric Nilsson\Downloads\till-eric (3).txt");
             Console.Read();
         }
 
@@ -46,9 +39,12 @@ namespace Augustus_Textparser
 
                 row = text[i].Split('\t');
 
+                var ess = row[1];
                 var cntry = row[2];
                 var avggay = row[3];
                 var avgwom = row[4];
+                var fcntry = row[5];
+                var mcntry = row[6];
 
                 // if the dict doesn't contain the cntry-code as key
                 if (!averages.ContainsKey(cntry))
@@ -60,13 +56,12 @@ namespace Augustus_Textparser
             {
                 var listRow = text[i].Split('\t').ToList();
 
+                var ess = listRow[1];
                 var cntry = listRow[2];
-                var fcntry = listRow[5];
-                var mcntry = listRow[6];
                 var avggay = listRow[3];
                 var avgwom = listRow[4];
-
-                var length = listRow.Count();
+                var fcntry = listRow[5];
+                var mcntry = listRow[6];
 
                 if (i == 0)
                 {
@@ -78,12 +73,7 @@ namespace Augustus_Textparser
                 else
                 {
                     // father
-                    if (fcntry.Equals("66"))
-                    {
-                        listRow.Add(averages[cntry][0]);
-                        listRow.Add(averages[cntry][1]);
-                    }
-                    else if (fcntry.Equals("04"))
+                    if (fcntry.Equals("66") || fcntry.Equals("04") || fcntry.Equals("01") || fcntry.Equals("02") || fcntry.Equals("03") || fcntry.Equals("77") || fcntry.Equals("88"))
                     {
                         listRow.Add("");
                         listRow.Add("");
@@ -97,19 +87,14 @@ namespace Augustus_Textparser
                         }
                         else
                         {
-                            listRow.Add("#ERROR");
-                            listRow.Add("#ERROR");
+                            listRow.Add("");
+                            listRow.Add("");
                         }
 
                     }
 
                     //mother
-                    if (mcntry.Equals("66"))
-                    {
-                        listRow.Add(averages[cntry][0]);
-                        listRow.Add(averages[cntry][1]);
-                    }
-                    else if (mcntry.Equals("04"))
+                    if (mcntry.Equals("66") || mcntry.Equals("04") || mcntry.Equals("01") || mcntry.Equals("02") || mcntry.Equals("03") || mcntry.Equals("77") || mcntry.Equals("88"))
                     {
                         listRow.Add("");
                         listRow.Add("");
@@ -123,8 +108,8 @@ namespace Augustus_Textparser
                         }
                         else
                         {
-                            listRow.Add("#ERROR");
-                            listRow.Add("#ERROR");
+                            listRow.Add("");
+                            listRow.Add("");
                         }
                     }
                 }
