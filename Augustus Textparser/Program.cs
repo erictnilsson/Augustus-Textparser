@@ -28,9 +28,9 @@ namespace Augustus_Textparser
             }
             catch (Exception e)
             {
-                Console.WriteLine("Ooops, something seems to have gone wrong: " + e.Message);
+                Console.WriteLine("Ooops, something went wrong: " + e.Message);
             }
-
+            Console.Read();
         }
 
         static void ParseFile(string filepath)
@@ -45,76 +45,90 @@ namespace Augustus_Textparser
             {
 
                 row = text[i].Split('\t');
-                if (!averages.ContainsKey(row[5]))
-                {
-                    averages.Add(row[5], new string[] { row[500], row[501] });
-                }
+
+                var cntry = row[2];
+                var avggay = row[3];
+                var avgwom = row[4];
+
+                // if the dict doesn't contain the cntry-code as key
+                if (!averages.ContainsKey(cntry))
+                    // then add it 
+                    averages.Add(cntry, new string[] { avggay, avgwom });
             }
 
             for (int i = 0; i < text.Length; i++)
             {
-                row = text[i].Split('\t');
+                var listRow = text[i].Split('\t').ToList();
+
+                var cntry = listRow[2];
+                var fcntry = listRow[5];
+                var mcntry = listRow[6];
+                var avggay = listRow[3];
+                var avgwom = listRow[4];
+
+                var length = listRow.Count();
+
                 if (i == 0)
                 {
-                    row[502] = "favggay";
-                    row[503] = "mavggay";
-                    row[504] = "favgwom";
-                    row[505] = "mavgwom";
+                    listRow.Add("favggay");
+                    listRow.Add("favgwom");
+                    listRow.Add("mavggay");
+                    listRow.Add("mavgwom");
                 }
                 else
                 {
                     // father
-                    if (row[158].Equals("66"))
+                    if (fcntry.Equals("66"))
                     {
-                        row[502] = averages[row[5]][0];
-                        row[504] = averages[row[5]][1];
+                        listRow.Add(averages[cntry][0]);
+                        listRow.Add(averages[cntry][1]);
                     }
-                    else if (row[158].Equals("04"))
+                    else if (fcntry.Equals("04"))
                     {
-                        row[502] = "";
-                        row[503] = "";
+                        listRow.Add("");
+                        listRow.Add("");
                     }
                     else
                     {
-                        if (averages.ContainsKey(row[158]))
+                        if (averages.ContainsKey(fcntry))
                         {
-                            row[502] = averages[row[158]][0];
-                            row[504] = averages[row[158]][1];
+                            listRow.Add(averages[fcntry][0]);
+                            listRow.Add(averages[fcntry][1]);
                         }
                         else
                         {
-                            row[502] = "#ERROR";
-                            row[504] = "#ERROR";
+                            listRow.Add("#ERROR");
+                            listRow.Add("#ERROR");
                         }
 
                     }
 
                     //mother
-                    if (row[160].Equals("66"))
+                    if (mcntry.Equals("66"))
                     {
-                        row[503] = averages[row[5]][0];
-                        row[505] = averages[row[5]][1];
+                        listRow.Add(averages[cntry][0]);
+                        listRow.Add(averages[cntry][1]);
                     }
-                    else if (row[160].Equals("04"))
+                    else if (mcntry.Equals("04"))
                     {
-                        row[503] = "";
-                        row[505] = "";
+                        listRow.Add("");
+                        listRow.Add("");
                     }
                     else
                     {
-                        if (averages.ContainsKey(row[160]))
+                        if (averages.ContainsKey(mcntry))
                         {
-                            row[503] = averages[row[160]][0];
-                            row[505] = averages[row[160]][1];
+                            listRow.Add(averages[mcntry][0]);
+                            listRow.Add(averages[mcntry][1]);
                         }
                         else
                         {
-                            row[503] = "#ERROR";
-                            row[505] = "#ERROR";
+                            listRow.Add("#ERROR");
+                            listRow.Add("#ERROR");
                         }
                     }
                 }
-                text[i] = String.Join("\t", row);
+                text[i] = String.Join("\t", listRow.ToArray());
             }
             File.WriteAllLines(filepath.Substring(0, filepath.LastIndexOf('\\') + 1) + "parsedTextFile" + tick + ".txt", text);
         }
