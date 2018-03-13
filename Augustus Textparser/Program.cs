@@ -19,7 +19,18 @@ namespace Augustus_Textparser
          */
         static void Main(string[] args)
         {
-            ParseFile("");
+            Console.WriteLine("Enter the filepath to the dataset");
+            var input = Console.ReadLine().Trim(new char[] { ' ', '\"' });
+            try
+            {
+                ParseFile(input);
+                Console.WriteLine("File created successfully!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ooops, something seems to have gone wrong: " + e.Message);
+            }
+
         }
 
         static void ParseFile(string filepath)
@@ -28,6 +39,7 @@ namespace Augustus_Textparser
 
             var text = File.ReadAllLines(filepath);
             var row = new string[0];
+            var tick = 1;
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -104,8 +116,7 @@ namespace Augustus_Textparser
                 }
                 text[i] = String.Join("\t", row);
             }
-            File.WriteAllLines(filepath, text);
-
+            File.WriteAllLines(filepath.Substring(0, filepath.LastIndexOf('\\') + 1) + "parsedTextFile" + tick + ".txt", text);
         }
     }
 }
