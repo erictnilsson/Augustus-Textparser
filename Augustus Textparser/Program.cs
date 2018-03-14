@@ -19,10 +19,18 @@ namespace Augustus_Textparser
          */
         static void Main(string[] args)
         {
-            //Console.WriteLine("Enter the filepath to the dataset");
-            //var input = Console.ReadLine().Trim(new char[] { ' ', '\"' });
+            Console.WriteLine("Enter the filepath to the dataset");
+            var input = Console.ReadLine().Trim(new char[] { ' ', '\"' });
+            try
+            {
+                ParseFile(@input);
+                Console.WriteLine("Parsed file successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Oops... something went wrong: " + e.Message);
+            }
 
-            ParseFile(@"C:\Users\Eric Nilsson\Downloads\till-eric (3).txt");
             Console.Read();
         }
 
